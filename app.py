@@ -71,6 +71,7 @@ y_prob = model.predict_proba(X_test)[:, 1]
 if page == "Home":
     st.title("📊 Loan Repayment Prediction Dashboard")
     st.write("Welcome! This dashboard demonstrates a machine learning model for predicting loan repayment.")
+    st.subheader("Sample Data")
     st.dataframe(df.head(10))
 
 elif page == "KPIs":
@@ -88,6 +89,7 @@ elif page == "KPIs":
 
 elif page == "Model Errors":
     st.title("❌ Model Errors & Performance")
+    
     st.subheader("Confusion Matrix")
     cm = confusion_matrix(y_test, y_pred)
     fig, ax = plt.subplots()
@@ -100,6 +102,9 @@ elif page == "Model Errors":
     fig, ax = plt.subplots()
     ax.plot(fpr, tpr, label=f"AUC = {roc_auc:.2f}")
     ax.plot([0, 1], [0, 1], "r--")
+    ax.set_xlabel("False Positive Rate")
+    ax.set_ylabel("True Positive Rate")
+    ax.set_title("ROC Curve")
     ax.legend()
     st.pyplot(fig)
 
@@ -108,6 +113,7 @@ elif page == "Model Errors":
 
 elif page == "Deep Analysis":
     st.title("🔎 Deep Analysis")
+    
     st.subheader("Feature Correlation Heatmap")
     fig, ax = plt.subplots(figsize=(10,6))
     sns.heatmap(df.corr(), annot=False, cmap="coolwarm", ax=ax)
@@ -116,4 +122,6 @@ elif page == "Deep Analysis":
     st.subheader("FICO Score vs Default Probability")
     fig, ax = plt.subplots()
     sns.scatterplot(x=df["FICO_Score"], y=df["Loan_Status"], alpha=0.6)
+    ax.set_xlabel("FICO Score")
+    ax.set_ylabel("Loan Status (0=Paid, 1=Default)")
     st.pyplot(fig)
